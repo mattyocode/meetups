@@ -1,4 +1,10 @@
+import { MongoClient } from "mongodb";
+
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+
+const user = process.env.MONGO_USER;
+const pw = process.env.MONGO_PASSWORD;
+const dbName = process.env.MONGO_DB_NAME;
 
 function MeetupDetails() {
   return (
@@ -12,20 +18,23 @@ function MeetupDetails() {
 }
 
 export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    `mongodb+srv://${user}:${pw}@cluster0.1ykyz.mongodb.net/${dbName}?retryWrites=true&w=majority`
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  // find => first object to filter entires (empty = all), send which fields
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
+  client.close();
+
   return {
     fallback: false,
-    paths: [
-      {
-        params: {
-          meetupId: "m1",
-        },
-      },
-      {
-        params: {
-          meetupId: "m2",
-        },
-      },
-    ],
+    paths: meetups.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
   };
 }
 
