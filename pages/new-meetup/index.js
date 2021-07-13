@@ -1,13 +1,15 @@
 // domain.com/new-meetup
+import { useRouter } from "next/router";
 
 import NewMeetupForm from "../../components/meetups/NewMeetupForm";
 
 function NewMeetupPage() {
+  const router = useRouter();
+
   async function addMeetupHandler(enteredMeetupData) {
-    // internal API hosted by same server so path to file
-    // second arg to fetch is config obj
     try {
-      console.log("new meetup try");
+      // internal API hosted by same server so path to file
+      // second arg to fetch is config obj
       const response = await fetch("/api/new-meetup", {
         method: "POST",
         body: JSON.stringify(enteredMeetupData),
@@ -18,6 +20,8 @@ function NewMeetupPage() {
       const data = await response.json();
 
       console.log(data);
+
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
