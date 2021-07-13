@@ -6,17 +6,21 @@ function NewMeetupPage() {
   async function addMeetupHandler(enteredMeetupData) {
     // internal API hosted by same server so path to file
     // second arg to fetch is config obj
-    const response = await fetch("/api/new-meetup", {
-      method: "POST",
-      body: JSON.stringify(enteredMeetupData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      console.log("new meetup try");
+      const response = await fetch("/api/new-meetup", {
+        method: "POST",
+        body: JSON.stringify(enteredMeetupData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
 
-    const data = await response.json();
-
-    console.log(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return <NewMeetupForm onAddMeetup={addMeetupHandler} />;
