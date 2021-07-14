@@ -6,24 +6,24 @@ const user = process.env.MONGO_USER;
 const pw = process.env.MONGO_PASSWORD;
 const dbName = process.env.MONGO_DB_NAME;
 
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "Meetout Time!",
-    image:
-      "https://images.unsplash.com/photo-1446569971295-057569541991?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2762&q=80",
-    address: "Outside somewhere",
-    description: "Simple outdoors meetups",
-  },
-  {
-    id: "m2",
-    title: "Meetout x 2!",
-    image:
-      "https://images.unsplash.com/6/mountain.JPG?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2700&q=80",
-    address: "Outside somewhere",
-    description: "We made it to a second meetup",
-  },
-];
+// const DUMMY_MEETUPS = [
+//   {
+//     id: "m1",
+//     title: "Meetout Time!",
+//     image:
+//       "https://images.unsplash.com/photo-1446569971295-057569541991?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2762&q=80",
+//     address: "Outside somewhere",
+//     description: "Simple outdoors meetups",
+//   },
+//   {
+//     id: "m2",
+//     title: "Meetout x 2!",
+//     image:
+//       "https://images.unsplash.com/6/mountain.JPG?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2700&q=80",
+//     address: "Outside somewhere",
+//     description: "We made it to a second meetup",
+//   },
+// ];
 
 function HomePage(props) {
   return <MeetupList meetups={props.meetups} />;
@@ -38,7 +38,11 @@ export async function getStaticProps() {
 
   const meetupsCollection = db.collection("meetups");
 
+  console.log("meetupsCollection main page", meetupsCollection);
+
   const meetups = await meetupsCollection.find().toArray();
+
+  console.log("meetups main page", meetups);
 
   client.close();
 
