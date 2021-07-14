@@ -1,6 +1,8 @@
+import Head from "next/head";
 import { MongoClient } from "mongodb";
 
 import MeetupList from "../components/meetups/MeetupList";
+import { Fragment } from "react";
 
 const user = process.env.MONGO_USER;
 const pw = process.env.MONGO_PASSWORD;
@@ -26,7 +28,15 @@ const dbName = process.env.MONGO_DB_NAME;
 // ];
 
 function HomePage(props) {
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>Meetouts</title>
+        <meta name="description" content="Browse a list of outdoors meetups" />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </Fragment>
+  );
 }
 
 export async function getStaticProps() {
